@@ -20,4 +20,3 @@ const debouncedScroll = debounce(onScroll, 200)
 
 window.addEventListener("scroll", debouncedScroll);
 
-console.log('teste 01')
