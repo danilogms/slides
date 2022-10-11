@@ -57,9 +57,51 @@ export default class Slide {
     this.onEnd = this.onEnd.bind(this);
   }
 
+
+  //Configuração dos Slides Atraves de uma Array
+
+  slidePosition(slide) {
+    const margin = (this.container.offsetWidth - slide.offsetWidth) / 2;
+    return -(slide.offsetLeft - margin)
+  }
+
+  slidesConfigs() {
+    //desestrutura o this.slide para para preencher a array
+    //Array com referencia de todos os itens
+    this.slideArray = [...this.slide.children].map((element) => {
+      const position = this.slidePosition(element)
+      return {
+        position,
+        element
+      }
+    }) 
+  }
+
+
+  slidesIndexNav(index) {
+    const ultimo = this.slideArray.length - 1; 
+    this.index = {
+      anterior: index  ? index - 1 : undefined,
+      atual: index,
+      proximo: index === ultimo ? undefined : index + 1,
+    }
+  }
+
+
+  changeSlide(index) {
+    //Metodo que modifica a imagem apresentada no slide
+    const slideAtivo = this.slideArray[index]
+    this.moveSlide(slideAtivo.position);
+    this.slidesIndexNav(index);
+    this.distance.finalPosition = slideAtivo.position;
+    console.log(this.index)
+  }
+
+
   init() {
     this.bindEvents();
     this.addSlideEvents();
+    this.slidesConfigs();
     return this;
   }
 }
